@@ -1,0 +1,33 @@
+- name: Install and Configure Web Server
+  hosts: webserver
+  become: true
+  tasks:
+
+    - name: Install Apache web server
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start Apache service
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create web page directory
+      file:
+        path: /var/www/html
+        state: directory
+
+    - name: Create web page file
+      copy:
+        content: |
+          <html>
+            <head>
+              <title>Hello World</title>
+            </head>
+            <body>
+              <h1>Hello World!</h1>
+            </body>
+          </html>
+        dest: /var/www/html/index.html
